@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+{% load staticfiles %}
+
+<head>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'events/bootstrap/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'events/bootstrap/css/bootstrap-theme.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'events/styles.css' %}" />
+    
+    <title>Simply events</title>
+
+    
+</head>
+<body>
+
+<div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+
+<h1>Мероприятия твоего ануса</h1>
+<br>
+
+<table class="table">
+<tr>
+    <th>Название</th>
+    <th>Дата проведения</th>
+    <th>Бесплатно?</th>
+    <th>Город</th>
+</tr>
+{% for event in events %}
+<tr>
+    <td>{{ event.name }}</td>
+    <td>{{ event.date }}</td>
+    <td>{{ event.isFree }}</td>
+    <td>{{ event.city_event.name }}</td>
+</tr>
+{% endfor %}
+
+</div>
+</div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static 'courier_app/bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

@@ -4,12 +4,13 @@ from django.db import models
 
 class Area(models.Model):
     name = models.CharField(max_length=100)
-
+    
     def __str__(self):
         return self.name
 
 class City(models.Model):
     name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, blank=True)
     city_area = models.ForeignKey(Area)
 
     def __str__(self):

@@ -21,6 +21,16 @@
 <h1>Мероприятия</h1>
 <br>
 
+<form action="{% url 'paid' %}" method="POST">
+  {% csrf_token %}  
+  <select name="type">
+      <option value="all">все</option>
+      <option value="paid">платные</option>
+      <option value="free">бесплатные</option>
+  </select>
+  <input type="submit" value="Применить">
+  </form>
+
 <table class="table">
 <tr>
     <th>Название</th>

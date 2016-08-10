@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, render_to_response
-
+from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import City, Event
 from datetime import datetime
+
+from django.http.response import Http404
 
 # Create your views here.
 def index(request):
@@ -109,3 +111,34 @@ def filter2(request, filter1, filter2, value1, value2):
                 }
                 return render(request, 'events/events.html', context)
     return HttpResponseRedirect('/events')
+
+
+################################# 
+
+def page_not_found(request):
+    """Custom 404 page
+
+    """
+    response = render_to_response(
+        'events/errors/404.html',
+        context_instance=RequestContext(request)
+    )
+    
+    response.status_code = 404
+    
+    return response
+
+def server_error(request):
+    """Custom 500 page
+    
+    """
+    response = render_to_response(
+        'events/errors/500.html',
+        context_instance=RequestContext(request)
+    )
+    
+    response.status_code = 500
+    
+    return response
+    
+################################# 

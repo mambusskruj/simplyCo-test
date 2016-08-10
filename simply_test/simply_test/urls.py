@@ -21,6 +21,10 @@ from django.http import HttpResponse
 from sitemaps import EventsMap
 from django.contrib.sitemaps.views import sitemap
 
+from django.conf.urls import (
+    handler400, handler403, handler404, handler500
+)
+
 sitemaps = { 
     'events': EventsMap() 
 }
@@ -31,3 +35,6 @@ urlpatterns = [
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}),
     url(r'^robots.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: / \nDisallow: /admin \nDissalow: /events/test \nAllow: /events \nSitemap: http://127.0.0.1:8000/sitemap.xml", content_type="text/plain")),
 ]
+
+handler404 = 'events.views.page_not_found'
+handler500 = 'events.views.server_error'

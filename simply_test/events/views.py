@@ -1,9 +1,8 @@
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render, redirect
 
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Area, City, Event
+from .models import City, Event
 from datetime import datetime
-from django.core.urlresolvers import reverse
 
 # Create your views here.
 def index(request):
@@ -13,28 +12,18 @@ def index(request):
     }
     return render(request, 'events/events.html', context)
 
-# def filter_paid(request, type='free'):
-#     if request.POST:
-#         if request.POST.get('type')=='free':
-#             free_events = Event.objects.filter(isFree=True).filter(date__gte=datetime.now()).order_by('date') 
-#             context = {
-#                 'events' : free_events,
-#                 'type' : type,
-#             }
-#             return render(request, 'events/events.html', context)
-#         elif request.POST.get('type')=='paid':
-#             type='paid'
-#             paid_events = Event.objects.filter(isFree=False).filter(date__gte=datetime.now()).order_by('date')
-#             context = {
-#                 'events' : paid_events,
-#                 'type' : type,
-#             }
-#             return render(request, 'events/events.html', context)
 
-#     return HttpResponseRedirect('/events')
+#test event page
+def test(request):
+    event_list = Event.objects.filter(date__gte=datetime.now()).order_by('date')
+    context = {
+        'events' : event_list,
+    }
+    return render(request, 'events/test.html', context)
 
 
-def filter_paid(request):
+
+def filter_form(request):
     if request.POST:
         if request.POST.get('type')=='free':
             if request.POST.get('city')!='all':
@@ -69,7 +58,7 @@ def filter(request, filter1, value1):
             return render(request, 'events/events.html', context)
             
     if filter1=='city':
-        city_events = Event.objects.filter(city_event=City.objects.get(slug=value1))
+        city_events = Event.objects.filter(city_event=City.objects.get(slug=value1)).filter(date__gte=datetime.now()).order_by('date')
         context = {
                 'events' : city_events,
             }
@@ -85,14 +74,14 @@ def filter2(request, filter1, filter2, value1, value2):
         if value1=='paid':
             events = Event.objects.filter(isFree=False).filter(date__gte=datetime.now()).order_by('date')
         if filter2=='city':
-            city_events = events.filter(city_event=City.objects.get(slug=value2))
+            city_events = events.filter(city_event=City.objects.get(slug=value2)).filter(date__gte=datetime.now()).order_by('date')
             context = {
                 'events' : city_events,
             }
             return render(request, 'events/events.html', context)
 
     if filter1=='city':
-        city_events = Event.objects.filter(city_event=City.objects.get(slug=value1))
+        city_events = Event.objects.filter(city_event=City.objects.get(slug=value1)).filter(date__gte=datetime.now()).order_by('date')
         if filter2=='type':
             if value2=='free':
                 events = city_events.filter(isFree=True).filter(date__gte=datetime.now()).order_by('date')

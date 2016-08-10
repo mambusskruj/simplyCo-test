@@ -1,6 +1,9 @@
-body {
-    padding: 15px;
-    padding-left: 20px;
+html {
+  position: relative;
+  min-height: 100%;
+}
 
-    background-color: rgba(0, 120, 201, 0.2);
+.container {
+  width: auto;
+  max-width: 800px;
 }

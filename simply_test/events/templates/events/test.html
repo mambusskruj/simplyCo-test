@@ -5,7 +5,7 @@
   <head>
     <link rel="stylesheet" type="text/css" href="{% static 'events/bootstrap/css/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'events/bootstrap/css/bootstrap-theme.min.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'events/styles.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'events/styles-test.css' %}" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
@@ -22,14 +22,13 @@
   </head>
  
   <body>
-    <div class="container">
-      <div class="page-header">
-        <h1>Встречи</h1>
-      </div>
-
-      <div class="events">
+    <div class="container theme-showcase" role="main">
+      <div class="jumbotron">
+        <h1>Мероприятия</h1>
+        <br>
+        
         <form action="{% url 'filter-form' %}" method="POST">
-          {% csrf_token %} 
+        {% csrf_token %} 
 
           <select name="type" class="filter__select1">
             <option></option>
@@ -46,26 +45,24 @@
           </select>
           <noscript><input type="submit" value="Submit"></noscript>
         </form>
-        
-          <div class="table-responsive">
-            <table class="table table-hover">
-            <tr>
-              <th>Название</th>
-              <th>Дата</th>
-              <th>Город</th>
-              <th>Бесплатно?</th>
-            </tr>
-            {% for event in events %}
-            <tr>
-              <td>{{ event.name }}</td>
-              <td>{{ event.date|date:"d E" }}</td>
-              <td>{{ event.city_event.name }}</td>
-              <td>{% if event.isFree %}Да {% else %}Нет {% endif %}</td>
-            </tr>
-            {% endfor %}
-          </div>
-        </div>
+
+        <table class="table">
+        <tr>
+          <th>Название</th>
+          <th>Дата</th>
+          <th>Город</th>
+          <th>Бесплатно?</th>
+        </tr>
+        {% for event in events %}
+        <tr>
+          <td>{{ event.name }}</td>
+          <td>{{ event.date|date:"d E" }}</td>
+          <td>{{ event.city_event.name }}</td>
+          <td>{% if event.isFree %}Да {% else %}Нет {% endif %}</td>
+        </tr>
+        {% endfor %}
       </div>
     </div>
+
   </body>
 </html>

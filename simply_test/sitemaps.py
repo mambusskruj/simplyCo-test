@@ -6,5 +6,5 @@ class EventsMap(Sitemap):
     changefreq = "daily"
     priority = 1.0
 
-    def events(self):
+    def items(self):
         return Event.objects.all()

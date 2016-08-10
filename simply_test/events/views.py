@@ -95,9 +95,3 @@ def filter2(request, filter1, filter2, value1, value2):
                 }
                 return render(request, 'events/events.html', context)
     return HttpResponseRedirect('/events')
-
-
-
-#robots.txt
-def robots(request):
-    return render_to_response('robots.txt', mimetype="text/plain")

@@ -18,7 +18,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.http import HttpResponse
 
-from events.sitemaps import EventsMap
+from sitemaps import EventsMap
 from django.contrib.sitemaps.views import sitemap
 
 sitemaps = { 
@@ -29,5 +29,5 @@ urlpatterns = [
     url(r'^events/', include('events.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}),
-    url(r'^robots.txt', lambda x: HttpResponse("User-Agent: *\nDisallow:", content_type="text/plain"), name="robots_file")
+    url(r'^robots.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: / \nDisallow: /admin \nDissalow: /events/test \nAllow: /events \n", content_type="text/plain")),
 ]

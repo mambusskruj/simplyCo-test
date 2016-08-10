@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import City, Event
@@ -11,7 +11,6 @@ def index(request):
         'events' : event_list,
     }
     return render(request, 'events/events.html', context)
-
 
 #test event page
 def test(request):
@@ -96,3 +95,9 @@ def filter2(request, filter1, filter2, value1, value2):
                 }
                 return render(request, 'events/events.html', context)
     return HttpResponseRedirect('/events')
+
+
+
+#robots.txt
+def robots(request):
+    return render_to_response('robots.txt', mimetype="text/plain")

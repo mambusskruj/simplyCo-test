@@ -6,14 +6,19 @@ from datetime import datetime
 
 # Create your views here.
 def index(request):
+    """Render EVENT-APP index page
+
+    """
     event_list = Event.objects.filter(date__gte=datetime.now()).order_by('date')
     context = {
         'events' : event_list,
     }
     return render(request, 'events/events.html', context)
 
-#test event page
 def test(request):
+    """Test index page with different template
+
+    """
     event_list = Event.objects.filter(date__gte=datetime.now()).order_by('date')
     context = {
         'events' : event_list,
@@ -23,6 +28,9 @@ def test(request):
 
 
 def filter_form(request):
+    """Filter form post-request. Redirected to views that render filtered query.  
+
+    """
     if request.POST:
         if request.POST.get('type')=='free':
             if request.POST.get('city')!='all':
@@ -41,6 +49,9 @@ def filter_form(request):
 
 
 def filter(request, filter1, value1):
+    """First filter render. Makes url like: /type/free/ or /city/kyiv/
+
+    """
     if filter1=='type':
         if value1=='free':
             free_events = Event.objects.filter(isFree=True).filter(date__gte=datetime.now()).order_by('date') 
@@ -66,6 +77,9 @@ def filter(request, filter1, value1):
 
 
 def filter2(request, filter1, filter2, value1, value2):
+    """Second filter render. Makes url like: /type/free/city/kyiv/ or /city/kyiv/type/free/
+
+    """
     events = []
     if filter1=='type':
         if value1=='free':

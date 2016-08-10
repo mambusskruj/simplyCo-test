@@ -29,5 +29,5 @@ urlpatterns = [
     url(r'^events/', include('events.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}),
-    url(r'^robots.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: / \nDisallow: /admin \nDissalow: /events/test \nAllow: /events \n", content_type="text/plain")),
+    url(r'^robots.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: / \nDisallow: /admin \nDissalow: /events/test \nAllow: /events \nSitemap: http://127.0.0.1:8000/sitemap.xml", content_type="text/plain")),
 ]

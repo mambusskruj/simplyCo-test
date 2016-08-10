@@ -1,58 +1,68 @@
-<!DOCTYPE HTML>
-<html lang="en">
-
+<!doctype html>
+<html>
 {% load staticfiles %}
 
-<head>
-
+  <head>
     <link rel="stylesheet" type="text/css" href="{% static 'events/bootstrap/css/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'events/bootstrap/css/bootstrap-theme.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'events/styles.css' %}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
     
+    <meta charset="utf-8">
     <title>Simply events</title>
 
-    
-</head>
-<body>
+    <script type="text/javascript">
+        $(document).ready(function() {
+          $(".filter__select1").select2( {placeholder: "Цена", width: '100px' });
+          $(".filter__select2").select2( {placeholder: "Город", width: '100px' });
+        });
+      </script>
+  </head>
+ 
+  <body>
+    <div class="container theme-showcase" role="main">
+      <div class="jumbotron">
+        <h1>Мероприятия</h1>
+        <br>
+        
+        <form action="{% url 'paid' %}" method="POST">
+        {% csrf_token %} 
 
-<div class="container theme-showcase" role="main">
-    <div class="jumbotron">
+          <select name="type" class="filter__select1">
+            <option></option>
+            <option value="all">Все</option>
+            <option value="paid" >Платные</option>
+            <option value="free" >Бесплатные</option>
+          </select>
+          
+          <select name="city" onchange="this.form.submit()" class="filter__select2">
+            <option></option>
+            <option value="all">Все</option>
+            <option value="kyiv" >Киев</option>
+            <option value="lviv" >Львов</option>
+          </select>
+          <noscript><input type="submit" value="Submit"></noscript>
+        </form>
 
-<h1>Мероприятия</h1>
-<br>
+        <table class="table">
+        <tr>
+          <th>Название</th>
+          <th>Дата</th>
+          <th>Бесплатно?</th>
+          <th>Город</th>
+        </tr>
+        {% for event in events %}
+        <tr>
+          <td>{{ event.name }}</td>
+          <td>{{ event.date }}</td>
+          <td>{{ event.isFree }}</td>
+          <td>{{ event.city_event.name }}</td>
+        </tr>
+        {% endfor %}
+      </div>
+    </div>
 
-<form action="{% url 'paid' %}" method="POST">
-  {% csrf_token %}  
-  <select name="type">
-      <option value="all">все</option>
-      <option value="paid">платные</option>
-      <option value="free">бесплатные</option>
-  </select>
-  <input type="submit" value="Применить">
-  </form>
-
-<table class="table">
-<tr>
-    <th>Название</th>
-    <th>Дата</th>
-    <th>Бесплатно?</th>
-    <th>Город</th>
-</tr>
-{% for event in events %}
-<tr>
-    <td>{{ event.name }}</td>
-    <td>{{ event.date }}</td>
-    <td>{{ event.isFree }}</td>
-    <td>{{ event.city_event.name }}</td>
-</tr>
-{% endfor %}
-
-</div>
-</div>
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{% static 'courier_app/bootstrap/js/bootstrap.min.js' %}"></script>
-</body>
+  </body>
 </html>

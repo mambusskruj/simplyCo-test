@@ -18,22 +18,23 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.http import HttpResponse
 
-from sitemaps import EventsMap
+from sitemaps import EventsMap, StaticEventMap
 from django.contrib.sitemaps.views import sitemap
 
 from django.conf.urls import (
-    handler400, handler403, handler404, handler500
+    handler404, handler500
 )
 
 sitemaps = { 
-    'events': EventsMap() 
+    'static_events': StaticEventMap,
+    'events': EventsMap,
 }
 
 urlpatterns = [
     url(r'^events/', include('events.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}),
-    url(r'^robots.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: / \nDisallow: /admin \nDissalow: /events/test \nAllow: /events \nSitemap: http://127.0.0.1:8000/sitemap.xml", content_type="text/plain")),
+    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    url(r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: / \nDisallow: /admin \nDissalow: /events/test \nAllow: /events \nSitemap: http://127.0.0.1:8000/sitemap.xml", content_type="text/plain")),
 ]
 
 handler404 = 'events.views.page_not_found'

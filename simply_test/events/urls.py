@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^test/$', views.test, name='test'),
     url(r'^type/$', views.filter_form, name='filter-form'),
-    url(r'^(?P<filter1>\w+)/(?P<value1>\w+)/$', views.filter, name='filter'),
-    url(r'^(?P<filter1>\w+)/(?P<value1>\w+)/(?P<filter2>\w+)/(?P<value2>\w+)/$', views.filter2, name='filter2'),
+    url(r'^(?P<filter1>\w+)/(?P<value1>\w+)/$', views.filter_simple, name='filter_simple'),
+    url(r'^(?P<filter1>\w+)/(?P<value1>\w+)/(?P<filter2>\w+)/(?P<value2>\w+)/$', views.filter_mix, name='filter_mix'),
 ]
 #(?P<type>\w+)

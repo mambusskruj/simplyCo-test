@@ -30,7 +30,7 @@ def test(request):
 
 
 def filter_form(request):
-    """Filter form post-request. Redirected to views that render filtered query.  
+    """Filter form post-request. Redirect to views that render filtered query.  
 
     """
     if request.POST:
@@ -50,7 +50,7 @@ def filter_form(request):
         return HttpResponseRedirect('/events')
 
 
-def filter(request, filter1, value1):
+def filter_simple(request, filter1, value1):
     """First filter render. Makes url like: /type/free/ or /city/kyiv/
 
     """
@@ -78,7 +78,7 @@ def filter(request, filter1, value1):
     return HttpResponseRedirect('/events')
 
 
-def filter2(request, filter1, filter2, value1, value2):
+def filter_mix(request, filter1, filter2, value1, value2):
     """Second filter render. Makes url like: /type/free/city/kyiv/ or /city/kyiv/type/free/
 
     """

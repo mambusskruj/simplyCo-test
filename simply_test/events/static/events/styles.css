@@ -15,3 +15,7 @@ html {
 .events__form {
   margin-bottom: 10px;
 }
+
+.button {
+  float: right;
+}

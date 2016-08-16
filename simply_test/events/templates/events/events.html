@@ -1,21 +1,16 @@
 {% extends "events/base.html" %}
 
-{% block script %}
-    <script type="text/javascript">
-        $(document).ready(function() {
-          $("#select_type").select2( {placeholder: "Цена", width: '100px' });
-          $("#select_city").select2( {placeholder: "Город", width: '100px' });
-        });
-      </script>
-{% endblock %} 
- 
 {% block h1 %}
-  <h1>Встречи</h1>
+  <h1>Встречи 
+    <div class="button">
+      <button id="create_button" type="button" class="btn btn-primary btn-sm">Новая встреча</button>
+    </div>
+  </h1>
 {% endblock %} 
 
 {% block content %}
   <div class="events">
-    <form action="{% url 'filter-form' %}" method="POST" class="events__form">
+    <form action="{% url 'index' %}" method="POST" class="events__form">
       {% csrf_token %} 
 
       <select name="type" id="select_type">
@@ -53,4 +48,26 @@
         {% endfor %}
       </div>
     </div>
+{% endblock %} 
+
+{% block script %}
+<script type="text/javascript">
+      document.getElementById("create_button").onclick = function () {
+        ur = location.pathname
+        if (ur.indexOf('city') == -1 ){
+          location.pathname='/events/new/'
+        }
+        else {
+          city = ur.substring(ur.indexOf('city/')+5)
+          location.pathname='/events/new/'+city
+        }
+      };
+</script>
+
+<script type="text/javascript">
+        $(document).ready(function() {
+          $("#select_type").select2( {placeholder: "Цена", width: '100px' });
+          $("#select_city").select2( {placeholder: "Город", width: '100px' });
+        });
+</script>
 {% endblock %} 

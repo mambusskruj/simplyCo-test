@@ -13,20 +13,9 @@ from django.http.response import Http404
 city_list = City.objects.all()
 
 def index(request):
-    """Render EVENT-APP index page, form post-request action
-
     """
-    event_list = Event.objects.filter(date__gte=datetime.now()).order_by('date')
-    context = {
-        'events' : event_list,
-        'cities' : city_list,
-    }
-
-    return render(request, 'events/events.html', context)
-
-
-def filter_form(request):
-    """Filter form post-request. Redirect to views that render filtered query.  
+    Render EVENT-APP index page, filter form post-request. 
+    Redirect to views that render filtered query. 
 
     """
     if request.POST:
@@ -42,7 +31,14 @@ def filter_form(request):
 
         if request.POST.get('city')!='all':
             return redirect('/events/city/'+request.POST.get('city'))
-        return HttpResponseRedirect('/events')
+
+    event_list = Event.objects.filter(date__gte=datetime.now()).order_by('date')
+    context = {
+        'events' : event_list,
+        'cities' : city_list,
+    }
+
+    return render(request, 'events/events.html', context)
 
 
 def filter_simple(request, filter1, value1):
@@ -126,7 +122,7 @@ class EventView(FormView):
     def get(self, request, city=None):
         if city is not None:
             city = City.objects.filter(slug=city)[0].id
-        form = self.form_class(initial={'city_event': city})
+        form = self.form_class(initial={'city_event': city, 'isFree': False})
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):

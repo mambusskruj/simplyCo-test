@@ -28,11 +28,9 @@
       <select name="city" onchange="this.form.submit()" id="select_city">
         <option></option>
         <option value="all">Все</option>
-        <option value="kyiv" >Киев</option>
-        <option value="lviv" >Львов</option>
-        <option value="vinnytsia">Винница</option>
-        <option value="kremenchuk" >Кременчуг</option>
-        <option value="berdiansk" >Бердянск</option>
+        {% for city in cities %}
+        <option value="{{ city.slug }}" >{{ city.name }}</option>
+        {% endfor %}
       </select>
       <noscript><input type="submit" value="Submit"></noscript>
     </form>

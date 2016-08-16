@@ -4,29 +4,25 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import City, Event
 from datetime import datetime
 
+from .forms import EventForm
+from django.views.generic.edit import CreateView, FormView
+
 from django.http.response import Http404
 
 # Create your views here.
+city_list = City.objects.all()
+
 def index(request):
-    """Render EVENT-APP index page
+    """Render EVENT-APP index page, form post-request action
 
     """
     event_list = Event.objects.filter(date__gte=datetime.now()).order_by('date')
     context = {
         'events' : event_list,
+        'cities' : city_list,
     }
+
     return render(request, 'events/events.html', context)
-
-def test(request):
-    """Test index page with different template
-
-    """
-    event_list = Event.objects.filter(date__gte=datetime.now()).order_by('date')
-    context = {
-        'events' : event_list,
-    }
-    return render(request, 'events/test.html', context)
-
 
 
 def filter_form(request):
@@ -46,7 +42,6 @@ def filter_form(request):
 
         if request.POST.get('city')!='all':
             return redirect('/events/city/'+request.POST.get('city'))
-
         return HttpResponseRedirect('/events')
 
 
@@ -54,11 +49,13 @@ def filter_simple(request, filter1, value1):
     """First filter render. Makes url like: /type/free/ or /city/kyiv/
 
     """
+
     if filter1=='type':
         if value1=='free':
             free_events = Event.objects.filter(isFree=True).filter(date__gte=datetime.now()).order_by('date') 
             context = {
                 'events' : free_events,
+                'cities' : city_list,
             }
             return render(request, 'events/events.html', context)
 
@@ -66,6 +63,7 @@ def filter_simple(request, filter1, value1):
             free_events = Event.objects.filter(isFree=False).filter(date__gte=datetime.now()).order_by('date') 
             context = {
                 'events' : free_events,
+                'cities' : city_list,
             }
             return render(request, 'events/events.html', context)
             
@@ -73,6 +71,7 @@ def filter_simple(request, filter1, value1):
         city_events = Event.objects.filter(city_event=City.objects.get(slug=value1)).filter(date__gte=datetime.now()).order_by('date')
         context = {
                 'events' : city_events,
+                'cities' : city_list,
             }
         return render(request, 'events/events.html', context)
     return HttpResponseRedirect('/events')
@@ -83,6 +82,7 @@ def filter_mix(request, filter1, filter2, value1, value2):
 
     """
     events = []
+
     if filter1=='type':
         if value1=='free':
             events = Event.objects.filter(isFree=True).filter(date__gte=datetime.now()).order_by('date')
@@ -92,6 +92,7 @@ def filter_mix(request, filter1, filter2, value1, value2):
             city_events = events.filter(city_event=City.objects.get(slug=value2)).filter(date__gte=datetime.now()).order_by('date')
             context = {
                 'events' : city_events,
+                'cities' : city_list,
             }
             return render(request, 'events/events.html', context)
 
@@ -102,15 +103,39 @@ def filter_mix(request, filter1, filter2, value1, value2):
                 events = city_events.filter(isFree=True).filter(date__gte=datetime.now()).order_by('date')
                 context = {
                     'events' : events,
+                    'cities' : city_list,
                 }
                 return render(request, 'events/events.html', context)
             if value2=='paid':
                 events = city_events.filter(isFree=False).filter(date__gte=datetime.now()).order_by('date')
                 context = {
                     'events' : events,
+                    'cities' : city_list,
                 }
                 return render(request, 'events/events.html', context)
     return HttpResponseRedirect('/events')
+
+
+class EventView(FormView):
+    """Сlass-based views for ModelForm. Create new Event object.
+
+    """
+    template_name = 'event_form.html'
+    form_class = EventForm
+
+    def get(self, request, city=None):
+        if city is not None:
+            city = City.objects.filter(slug=city)[0].id
+        form = self.form_class(initial={'city_event': city})
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/events')
+
+        return render(request, self.template_name, {'form': form})
 
 
 ################################# 

@@ -1,6 +1,5 @@
 from django.db import models
 
-
 # Create your models here.
 
 class Area(models.Model):
@@ -28,4 +27,3 @@ class Event(models.Model):
 
     def get_absolute_url(self):
         return "/event/%i/" % self.pk 
-

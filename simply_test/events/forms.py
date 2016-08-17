@@ -13,3 +13,7 @@ class EventForm(ModelForm):
     class Meta:
         model = Event
         fields = ['name', 'date', 'isFree', 'city_event']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'date': forms.TextInput(attrs={'class': 'form-control'}),
+        }

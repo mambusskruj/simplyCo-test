@@ -19,3 +19,9 @@ html {
 .button {
   float: right;
 }
+
+.city_name {
+  margin: 10px;
+  color: gray;
+  font-size: 0.8em;
+}

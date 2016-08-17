@@ -68,6 +68,7 @@ def filter_simple(request, filter1, value1):
         context = {
                 'events' : city_events,
                 'cities' : city_list,
+                'city_url' : City.objects.get(slug=value1),
             }
         return render(request, 'events/events.html', context)
     return HttpResponseRedirect('/events')
@@ -89,6 +90,7 @@ def filter_mix(request, filter1, filter2, value1, value2):
             context = {
                 'events' : city_events,
                 'cities' : city_list,
+                'city_url' : City.objects.get(slug=value2),
             }
             return render(request, 'events/events.html', context)
 
@@ -100,6 +102,7 @@ def filter_mix(request, filter1, filter2, value1, value2):
                 context = {
                     'events' : events,
                     'cities' : city_list,
+                    'city_url' : City.objects.get(slug=value1),
                 }
                 return render(request, 'events/events.html', context)
             if value2=='paid':
@@ -107,6 +110,7 @@ def filter_mix(request, filter1, filter2, value1, value2):
                 context = {
                     'events' : events,
                     'cities' : city_list,
+                    'city_url' : City.objects.get(slug=value1),
                 }
                 return render(request, 'events/events.html', context)
     return HttpResponseRedirect('/events')

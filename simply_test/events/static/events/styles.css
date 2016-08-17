@@ -25,3 +25,13 @@ html {
   color: gray;
   font-size: 0.8em;
 }
+
+.h1__homelink {
+  color: black;
+}
+
+.h1__homelink:hover {
+  text-decoration: none;
+  color: black;
+  border-bottom:2px solid darkgrey;
+}

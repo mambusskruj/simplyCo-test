@@ -15,5 +15,5 @@ class EventForm(ModelForm):
         fields = ['name', 'date', 'isFree', 'city_event']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'date': forms.TextInput(attrs={'class': 'form-control'}),
+            'date': forms.TextInput(attrs={'class': 'form-control', 'id': 'datetimepicker'}),
         }

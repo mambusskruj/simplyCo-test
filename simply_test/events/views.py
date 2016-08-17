@@ -5,12 +5,35 @@ from .models import City, Event
 from datetime import datetime
 
 from .forms import EventForm
-from django.views.generic.edit import CreateView, FormView
-
-from django.http.response import Http404
+from django.views.generic.edit import FormView
 
 # Create your views here.
 city_list = City.objects.all()
+
+#################################
+
+class EventView(FormView):
+    """Сlass-based view for ModelForm. Create new Event object.
+
+    """
+    template_name = 'event_form.html'
+    form_class = EventForm
+
+    def get(self, request, city=None):
+        if city is not None:
+            city = City.objects.filter(slug=city)[0].id
+        form = self.form_class(initial={'city_event': city, 'isFree': False})
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/events')
+
+        return render(request, self.template_name, {'form': form})
+
+#################################
 
 def index(request):
     """
@@ -114,28 +137,6 @@ def filter_mix(request, filter1, filter2, value1, value2):
                 }
                 return render(request, 'events/events.html', context)
     return HttpResponseRedirect('/events')
-
-
-class EventView(FormView):
-    """Сlass-based views for ModelForm. Create new Event object.
-
-    """
-    template_name = 'event_form.html'
-    form_class = EventForm
-
-    def get(self, request, city=None):
-        if city is not None:
-            city = City.objects.filter(slug=city)[0].id
-        form = self.form_class(initial={'city_event': city, 'isFree': False})
-        return render(request, self.template_name, {'form': form})
-
-    def post(self, request):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/events')
-
-        return render(request, self.template_name, {'form': form})
 
 
 ################################# 

@@ -18,6 +18,7 @@
     <div class="form-group">
       <label class="control-label col-sm-2" for="{{ form.name.id_for_label }}">Название:</label>
       <div class="col-sm-10">
+        {{ form.name.errors }}
         {{ form.name }}
       </div>
     </div>
@@ -25,6 +26,7 @@
     <div class="form-group">
       <label class="control-label col-sm-2" for="{{ form.date.id_for_label }}">Дата:</label>
       <div class="col-sm-10">
+        {{ form.date.errors }}
         {{ form.date }}
       </div>
     </div>
@@ -40,6 +42,7 @@
     <div class="form-group">
       <label class="control-label col-sm-2" for="{{ form.city_event.id_for_label }}">Город:</label>
       <div class="col-sm-10">
+        {{ form.city_event.errors }}
         {{ form.city_event }}
       </div>
     </div>

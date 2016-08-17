@@ -30,7 +30,6 @@ class EventView(FormView):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/events')
-
         return render(request, self.template_name, {'form': form})
 
 #################################
@@ -102,14 +101,15 @@ def filter_mix(request, filter1, filter2, value1, value2):
 
     """
     events = []
+    events = Event.objects.filter(date__gte=datetime.now())
 
     if filter1=='type':
         if value1=='free':
-            events = Event.objects.filter(isFree=True).filter(date__gte=datetime.now()).order_by('date')
+            events = events.filter(isFree=True)
         if value1=='paid':
-            events = Event.objects.filter(isFree=False).filter(date__gte=datetime.now()).order_by('date')
+            events = events.filter(isFree=False)
         if filter2=='city':
-            city_events = events.filter(city_event=City.objects.get(slug=value2)).filter(date__gte=datetime.now()).order_by('date')
+            city_events = events.filter(city_event=City.objects.get(slug=value2)).order_by('date')
             context = {
                 'events' : city_events,
                 'cities' : city_list,
@@ -118,10 +118,10 @@ def filter_mix(request, filter1, filter2, value1, value2):
             return render(request, 'events/events.html', context)
 
     if filter1=='city':
-        city_events = Event.objects.filter(city_event=City.objects.get(slug=value1)).filter(date__gte=datetime.now()).order_by('date')
+        city_events = events.filter(city_event=City.objects.get(slug=value1))
         if filter2=='type':
             if value2=='free':
-                events = city_events.filter(isFree=True).filter(date__gte=datetime.now()).order_by('date')
+                events = city_events.filter(isFree=True).order_by('date')
                 context = {
                     'events' : events,
                     'cities' : city_list,
@@ -129,7 +129,7 @@ def filter_mix(request, filter1, filter2, value1, value2):
                 }
                 return render(request, 'events/events.html', context)
             if value2=='paid':
-                events = city_events.filter(isFree=False).filter(date__gte=datetime.now()).order_by('date')
+                events = city_events.filter(isFree=False).order_by('date')
                 context = {
                     'events' : events,
                     'cities' : city_list,

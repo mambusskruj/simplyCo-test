@@ -1,7 +1,7 @@
 {% extends "events/base.html" %}
 
 {% block h1 %}
-  <h1><a class="h1__homelink" href="/events/">Встречи</a> <span class='city_name'>{{city_url.name}}</span>
+  <h1><a class="h1__homelink" href="{% url 'index' %}">Встречи</a> <span class='city_name'>{{city_url.name}}</span>
     <div class="button">
       <button id="create_button" type="button" class="btn btn-primary btn-sm">Добавить</button>
     </div>
@@ -53,14 +53,14 @@
 {% block script %}
 <script type="text/javascript">
       document.getElementById("create_button").onclick = function () {
-        ur = location.pathname
+        var ur = location.pathname
         if (ur.indexOf('city') == -1 ){
           location.pathname='/events/new/'
         }
         else {
           // new_ur = ur.replace(/type|free|paid|\W/gi , '')
-          // city = new_ur.substring(new_ur.indexOf('city')+4)
-          location.pathname='/events/new/'+'{{city_url.slug}}'
+          // city = new_ur.substring(new_ur.indexOf('city') + 4)
+          location.pathname = '/events/new/' + '{{city_url.slug}}'
         }
       };
 </script>

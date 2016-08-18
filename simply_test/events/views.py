@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
@@ -13,8 +15,8 @@ city_list = City.objects.all()
 #################################
 
 class EventView(FormView):
-    """Сlass-based view for ModelForm. Create new Event object.
-
+    """Class-based view for ModelForm. Create new Event object.
+    
     """
     template_name = 'event_form.html'
     form_class = EventForm

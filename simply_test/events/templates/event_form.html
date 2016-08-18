@@ -3,7 +3,6 @@
 {% block links %}
 
   <!--Add jquery date time picker-->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.full.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.min.css" />
 {% endblock %}
 
@@ -53,6 +52,10 @@
       </div>
     </div>
 </form>
+{% endblock %} 
+
+{% block script_src %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.full.js"></script>
 {% endblock %} 
 
 {% block script %}
